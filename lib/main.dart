@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-// Import necessary files:
 import 'models/subject.dart'; 
-import 'screens/main_navigation_screen.dart'; // The new navigation structure
+import 'screens/main_navigation_screen.dart';
 
 void main() async {
-  // Ensure that Flutter is initialized before running any code that needs it (like Hive)
+  
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Hive and register the adapter for the Subject class
   await Hive.initFlutter();
-  // Ensure you have run 'flutter packages pub run build_runner build' at least once
   Hive.registerAdapter(SubjectAdapter());
-
-  // Open the box that stores the subjects
   final subjectBox = await Hive.openBox<Subject>('subjects');
 
-  // Logic to auto-populate if the box is empty (Optional but useful for testing)
   if (subjectBox.isEmpty) {
     print("No subjects found. Populating default list...");
 
-    // Default subjects list
+    
     subjectBox.addAll([
       Subject(
         name: "Differential Calculus",
@@ -47,7 +40,7 @@ void main() async {
     ]);
   }
 
-  // Run the application
+ 
   runApp(const MyApp());
 }
 
@@ -57,10 +50,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'University Planner', // Updated title
+      title: 'University Planner',
       theme: ThemeData(primarySwatch: Colors.blue),
-      
-      // 🎯 CRITICAL CHANGE: MainNavigationScreen is set as the app's starting point
       home: const MainNavigationScreen(studentName: "Tushita Kohli"), 
       
       debugShowCheckedModeBanner: false,
