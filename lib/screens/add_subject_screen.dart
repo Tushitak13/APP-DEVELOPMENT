@@ -28,8 +28,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
         total: int.parse(_totalController.text),
       );
 
-      // --- 🎯 THE CRITICAL FIX IS HERE ---
-      // Changed 'subjectsBox' to the correct box name: 'subjects'
+      
       Hive.box<Subject>('subjects').add(subject); 
 
       ScaffoldMessenger.of(context).showSnackBar(
