@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../models/subject.dart'; // Ensure this path is correct
+import '../models/subject.dart'; 
 
 class DashboardScreen extends StatelessWidget {
-  // Static data for 'About' and 'Credentials'
+
   final String studentName = "Tushita Kohli";
   final String studentID = "22BCE1234";
   final String program = "B.Tech Computer Science";
   final String campus = "Main Campus, Vellore";
 
-  // 🎯 FIX 1: Corrected constructor syntax (removed the dot after super)
   DashboardScreen({Key? key}) : super(key: key);
 
-  // Helper method to calculate overall attendance percentage
   double _calculateOverallAttendance(Box<Subject> box) {
     if (box.isEmpty) return 0.0;
     
@@ -27,11 +25,10 @@ class DashboardScreen extends StatelessWidget {
     if (totalClasses == 0) return 0.0;
     return (totalAttended / totalClasses) * 100;
   }
-
-  // --- Start of Build Method ---
+-
   @override
   Widget build(BuildContext context) {
-    // Listen to the Hive box for subject data
+  
     final Box<Subject> subjectBox = Hive.box<Subject>('subjects');
 
     return Scaffold(
@@ -47,7 +44,6 @@ class DashboardScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             children: [
               
-              // 1. Attendance Summary Card
               _buildDashboardCard(
                 icon: Icons.access_time_filled,
                 title: "Overall Attendance",
@@ -63,7 +59,7 @@ class DashboardScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 2. Credentials/About Section
+             
               _buildSectionTitle(context, "Student Credentials"),
               Card(
                 elevation: 2,
@@ -83,7 +79,7 @@ class DashboardScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 3. Timetable Placeholder
+              /
               _buildSectionTitle(context, "Timetable (Next 7 Days)"),
               _buildDashboardCard(
                 icon: Icons.calendar_month,
@@ -186,7 +182,6 @@ class DashboardScreen extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
           onPressed: () {
-            // Use the key to safely delete the subject
             Hive.box<Subject>('subjects').delete(subjectKey);
           },
         ),
