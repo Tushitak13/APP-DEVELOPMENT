@@ -97,7 +97,7 @@ class DashboardScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // 4. Subjects Taken with Professor and Code
+             
               _buildSectionTitle(context, "Subjects Taken (${box.length})"),
               if (box.isEmpty)
                 const Center(child: Padding(
@@ -113,9 +113,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // --- Helper Widgets (🎯 FIX 2: These methods were missing from your snippet) ---
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
+  
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
       child: Text(
