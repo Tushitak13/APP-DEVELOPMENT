@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../models/subject.dart'; // Ensure this path is correct
+import '../models/subject.dart';
 
 class SubjectListScreen extends StatefulWidget {
   const SubjectListScreen({super.key});
@@ -10,37 +10,35 @@ class SubjectListScreen extends StatefulWidget {
 }
 
 class _SubjectListScreenState extends State<SubjectListScreen> {
-  // Use 'late final' to ensure the box is initialized in initState
+  
   late final Box<Subject> subjectBox;
 
   @override
   void initState() {
     super.initState();
-    // Get the box reference using the correct name 'subjects'
+    
     subjectBox = Hive.box<Subject>('subjects');
   }
 
-  // 🎯 FIX 1: Correct logic for marking PRESENT
   void incrementAttendance(int index) {
-    // We retrieve the object reference from the box
+    /
     final subject = subjectBox.getAt(index)!;
 
-    // A class attended means +1 to ATTENDED and +1 to TOTAL
+    
     subject.attended += 1;
     subject.total += 1;
 
-    // Use .putAt to update the object at the specific index, which triggers the UI rebuild
+    
     subjectBox.putAt(index, subject);
   }
 
-  // 🎯 FIX 2: Correct logic for marking ABSENT
+ 
   void decrementAttendance(int index) {
     final subject = subjectBox.getAt(index)!;
 
-    // A class missed (absent) means +0 to ATTENDED and +1 to TOTAL
+  
     subject.total += 1;
 
-    // Use .putAt to update the object at the specific index
     subjectBox.putAt(index, subject);
   }
 
@@ -49,11 +47,11 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Track Attendance"),
-        // Added a back button title for clarity
+        
         centerTitle: true,
       ),
       body: ValueListenableBuilder<Box<Subject>>(
-        // Listen to the box for all changes
+       
         valueListenable: subjectBox.listenable(),
         builder: (context, box, _) {
           if (box.isEmpty) {
@@ -70,7 +68,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
             itemBuilder: (context, index) {
               final subject = box.getAt(index)!;
               final percent = subject.attendancePercentage;
-              // Determine the color based on attendance percentage
+              
               final color = percent < 75 ? Colors.red.shade600 : Colors.green.shade600;
 
               return Card(
@@ -84,7 +82,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
                   subtitle: Text(
                       "Professor: ${subject.professor}\nCode: ${subject.code}"),
                   
-                  // Display the percentage prominently
+               
                   trailing: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
@@ -102,9 +100,9 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
                     ),
                   ),
 
-                  // The main interactive buttons (Present / Absent)
+                 
                   onTap: () {
-                    // Show the dialog for tracking today's class
+                  
                     _showTrackingDialog(context, index, subject);
                   },
                 ),
@@ -116,7 +114,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
     );
   }
   
-  // 🎯 Enhancement: Use a dialog for clearer tracking
+
   void _showTrackingDialog(BuildContext context, int index, Subject subject) {
     showDialog(
       context: context,
@@ -127,7 +125,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                decrementAttendance(index); // Mark Absent
+                decrementAttendance(index);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("${subject.name}: Marked Absent (+1 total).")),
@@ -137,7 +135,7 @@ class _SubjectListScreenState extends State<SubjectListScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                incrementAttendance(index); // Mark Present
+                incrementAttendance(index); 
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("${subject.name}: Marked Present (+1 attended).")),
