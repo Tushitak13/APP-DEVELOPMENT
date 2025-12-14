@@ -1,5 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'subject.dart';
 
 class SubjectAdapter extends TypeAdapter<Subject> {
